@@ -15,24 +15,13 @@ export class DynamicHostDirective<T> implements OnInit, OnChanges {
     ngOnInit(): void {
         if (this.guestComponent) {
             this.guestInstance = this.createComponent(this.guestComponent);
-
-            if (this.componentData) {
-                for(let prop in this.componentData) {
-                    if (this.componentData.hasOwnProperty(prop)) {
-                        this.guestInstance[prop] = this.componentData[prop];
-                    }
-                }
-            }
+            this.bindInputs(this.guestInstance, this.componentData);
         }
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (this.guestInstance && this.componentData && changes.componentData && changes.componentData.currentValue !== changes.componentData.previousValue) {
-            for(let prop in this.componentData) {
-                if (this.componentData.hasOwnProperty(prop)) {
-                    this.guestInstance[prop] = this.componentData[prop];
-                }
-            }
+        if (changes.componentData && changes.componentData.currentValue !== changes.componentData.previousValue) {
+            this.bindInputs(this.guestInstance, this.componentData);
         }
     }
 
@@ -43,4 +32,13 @@ export class DynamicHostDirective<T> implements OnInit, OnChanges {
         return viewContainerRef.createComponent(componentFactory).instance;
     }
 
+    bindInputs(componentInstance: T, inputData: any): void {
+        if (inputData && componentInstance) {
+            for(let prop in inputData) {
+                if (inputData.hasOwnProperty(prop)) {
+                    componentInstance[prop] = inputData[prop];
+                }
+            }
+        }
+    }
 }

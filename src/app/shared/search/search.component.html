@@ -1,0 +1,9 @@
+<form>
+    <label for="searchText">Search </label>
+    <input name="searchText" id="searchText" type="text"
+        [(ngModel)]="searchText"
+        (keyup)="search()"
+        (change)="search()"
+        />
+    <ng-content></ng-content>
+</form>

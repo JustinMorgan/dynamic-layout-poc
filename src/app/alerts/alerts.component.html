@@ -1,0 +1,30 @@
+<div class="mode btn-group">
+    <button [class.active]="mode === 'dynamicComponent'" (click)="mode = 'dynamicComponent'">Dynamic Components mode</button>
+    <button [class.active]="mode === 'componentOutlet'" (click)="mode = 'componentOutlet'">ngComponentOutlet mode</button>
+</div>
+
+<div class="wrap">
+    <div class="header">
+        <app-search (searchTextChanged)="search($event)"></app-search>
+    </div>
+    <!-----------------dynamicComponent------------------------>
+    <div class="main" *ngIf="mode === 'dynamicComponent'">
+        <div class="grid">
+            <app-grid [list]="alerts$ | async"
+                [GridRowComponent]="GridRowComponent"
+                [GridHeaderComponent]="GridHeaderComponent"></app-grid>
+        </div>
+        <div class="detail" *ngIf="selectedAlert$ | async as selectedAlert">
+            <app-detail [model]="selectedAlert" [Component]="DetailComponent"></app-detail>
+        </div>
+    </div>
+    <!--------------------componentOutlet--------------------->
+    <div class="main" *ngIf="mode === 'componentOutlet'">
+        <div class="grid">
+            <ng-container *ngComponentOutlet="OutletGridComponent; injector: alertInjector"></ng-container>
+        </div>
+        <div class="detail" *ngIf="selectedAlert$ | async as selectedAlert">
+            <ng-container *ngComponentOutlet="OutletDetailComponent; injector: alertInjector"></ng-container>
+        </div>
+    </div>
+</div>

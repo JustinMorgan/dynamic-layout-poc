@@ -1,0 +1,10 @@
+<div class="detail" *ngIf="model">
+    <div>
+        <b>Alert Detail</b>
+        <button class="active" role="button" (click)="close.next()">x</button>
+    </div>
+    <div>
+        <div><b>ID:</b> {{model.id}}</div>
+        <div><b>Name:</b> {{model.name}}</div>
+    </div>
+</div>

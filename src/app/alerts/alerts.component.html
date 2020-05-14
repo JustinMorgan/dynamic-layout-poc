@@ -1,30 +1,62 @@
 <div class="mode btn-group">
-    <button [class.active]="mode === 'dynamicComponent'" (click)="mode = 'dynamicComponent'">Dynamic Components mode</button>
-    <button [class.active]="mode === 'componentOutlet'" (click)="mode = 'componentOutlet'">ngComponentOutlet mode</button>
+    <button *ngFor="let pair of modes" [class.active]="mode === pair[1]" (click)="setMode(pair[1])">
+        {{pair[0]}}
+    </button>
 </div>
 
 <div class="wrap">
     <div class="header">
         <app-search (searchTextChanged)="search($event)"></app-search>
     </div>
-    <!-----------------dynamicComponent------------------------>
-    <div class="main" *ngIf="mode === 'dynamicComponent'">
-        <div class="grid">
-            <app-grid [list]="alerts$ | async"
+
+    <ng-container [ngSwitch]="mode">
+        <!-----------------dynamicComponent------------------------>
+        <div class="main" *ngSwitchCase="'dynamicComponent'">
+            <dynamic-grid
+                [list]="alerts$ | async"
+                [(select)]="select"
                 [GridRowComponent]="GridRowComponent"
-                [GridHeaderComponent]="GridHeaderComponent"></app-grid>
+                [GridHeaderComponent]="GridHeaderComponent"></dynamic-grid>
+            <dynamic-detail
+                [model]="selectedAlert$ | async"
+                [(close)]="select"
+                [Component]="DetailComponent"></dynamic-detail>
         </div>
-        <div class="detail" *ngIf="selectedAlert$ | async as selectedAlert">
-            <app-detail [model]="selectedAlert" [Component]="DetailComponent"></app-detail>
-        </div>
-    </div>
-    <!--------------------componentOutlet--------------------->
-    <div class="main" *ngIf="mode === 'componentOutlet'">
-        <div class="grid">
+        <!--------------------componentOutlet--------------------->
+        <div class="main" *ngSwitchCase="'componentOutlet'">
             <ng-container *ngComponentOutlet="OutletGridComponent; injector: alertInjector"></ng-container>
-        </div>
-        <div class="detail" *ngIf="selectedAlert$ | async as selectedAlert">
             <ng-container *ngComponentOutlet="OutletDetailComponent; injector: alertInjector"></ng-container>
         </div>
-    </div>
+        <!--------------------inheritance--------------------->
+        <div class="main" *ngSwitchCase="'inheritance'">
+            <alerts-grid [list]="alerts$ | async" [(select)]="select"></alerts-grid>
+            <alerts-detail [model]="selectedAlert$ | async" [(close)]="select"></alerts-detail>
+        </div>
+        <!--------------------dynamicTemplate--------------------->
+        <div class="main" *ngSwitchCase="'dynamicTemplate'">
+            <div class="grid">
+                <base-grid-header [templateUrl]="baseTemplateUrl + 'grid-header.html'"></base-grid-header>
+                <div *ngFor="let item of alerts$ | async; index as i" [class.dark]="i % 2">
+                    <base-grid-row [templateUrl]="baseTemplateUrl + 'grid-row.html'"
+                        [model]="item"
+                        [(select)]="select"></base-grid-row>
+                </div>
+            </div>
+            <base-detail [templateUrl]="baseTemplateUrl + 'detail.html'"
+                [model]="selectedAlert$ | async"
+                [(close)]="select"></base-detail>
+        </div>
+        <!--------------------ngContent--------------------->
+        <div class="main" *ngSwitchCase="'ngContent'">
+            <ngContent-grid>
+                <alerts-grid-header grid-header></alerts-grid-header>
+                <div *ngFor="let item of alerts$ | async; index as i" [class.dark]="i % 2" grid-row>
+                    <alerts-grid-row
+                        [model]="item"
+                        [(select)]="select"></alerts-grid-row>
+                </div>
+            </ngContent-grid>
+            <alerts-detail [model]="selectedAlert$ | async" [(close)]="select"></alerts-detail>
+        </div>
+    </ng-container>
 </div>

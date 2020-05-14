@@ -5,5 +5,6 @@
         (keyup)="search()"
         (change)="search()"
         />
+    <button class="active" role="button" (click)="searchText = ''; search()">x</button>
     <ng-content></ng-content>
 </form>

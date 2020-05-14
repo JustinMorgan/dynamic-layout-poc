@@ -1,0 +1,51 @@
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.home {
+    margin: 0 20px;
+}
+
+.header, .grid, .detail {
+    background: #ddd;
+    margin: 10px 20px;
+    padding: 20px;
+    border: 1px solid #333;
+    border-radius: 5px;
+}
+
+.mode {
+    margin: 10px 15px;
+    button { padding: 10px; }
+}
+
+button {
+    border-radius: 5px;
+    font-size: inherit;
+    margin: 5px;
+    background: #ddd;
+    &.active {
+        color: white;
+        background: #0078e7;
+    }
+}
+
+.main {
+    display: flex;
+    alerts-grid, outlet-alerts-grid, dynamic-grid, ngContent-grid {
+        flex: 2 0 67%;
+    }
+    alerts-detail, outlet-detail, dynamic-detail {
+        flex: 1 1 fit-content;
+    }
+    .detail {
+        min-width: 25vw;
+    }
+}
+
+.cell {
+    display: inline-block;
+    width: 40%;
+    padding: 5px;
+}
+.dark { background: #ccc; }

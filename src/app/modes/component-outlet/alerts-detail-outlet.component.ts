@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Alert } from '../../alerts/alert.model';
 
@@ -10,21 +10,11 @@ import { Alert } from '../../alerts/alert.model';
 // but at the cost of awkward code.
 
 @Component({
-  selector: 'outlet-alerts-detail',
-  template: `
-    <alerts-detail [model]="model$ | async"></alerts-detail>
-  `
+    selector: 'outlet-alerts-detail',
+    template: `<alerts-detail [model]="model$ | async" [(close)]="select"></alerts-detail>`
 })
-export class AlertsDetailOutletComponent implements OnInit {
+export class AlertsDetailOutletComponent {
 
-  constructor(@Inject('detail$') public model$: Observable<Alert>,
-              @Inject('selectItem') private _selectItem) { }
-
-  ngOnInit() {
-  }
-
-  close(): void {
-      this._selectItem(undefined);
-  }
-
+    constructor(@Inject('detail$') public model$: Observable<Alert>,
+                @Inject('select$') public select) { }
 }

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Alert } from '../../alerts/alert.model';
 
@@ -12,23 +12,16 @@ import { Alert } from '../../alerts/alert.model';
 @Component({
   selector: 'outlet-alerts-grid',
   template: `
-    <alerts-grid-header></alerts-grid-header>
+    <div class="grid">
+        <alerts-grid-header></alerts-grid-header>
 
-    <div *ngFor="let model of list$ | async" class="row" [class.dark]="model.id % 2" (click)="select(model)">
-      <alerts-grid-row [model]="model"></alerts-grid-row>
-    </div>
-  `
+        <div *ngFor="let model of list$ | async; index as i" class="row" [class.dark]="(i + 1) % 2">
+            <alerts-grid-row [model]="model" [(select)]="select"></alerts-grid-row>
+        </div>
+    </div>`
 })
-export class AlertsGridOutletComponent implements OnInit {
+export class AlertsGridOutletComponent {
 
   constructor(@Inject('filteredList$') public list$: Observable<Alert[]>,
-              @Inject('selectItem') private _selectItem) { }
-
-  ngOnInit() {
-  }
-
-  select(model): void {
-    this._selectItem(model);
-  }
-
+              @Inject('select$') public select) { }
 }

@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { Component, Input, OnInit, Output } from '@angular/core';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
     selector: 'app-search',
@@ -9,7 +9,7 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 })
 export class SearchComponent implements OnInit {
 
-    @Input() searchText: string = '';
+    @Input() searchText = '';
 
     searchChanging = new Subject<string>();
     @Output() searchTextChanged = this.searchChanging.pipe(debounceTime(500));
@@ -21,7 +21,7 @@ export class SearchComponent implements OnInit {
     }
 
     search() {
-        this.searchChanging.next(this.searchText)
+        this.searchChanging.next(this.searchText);
     }
 
 }

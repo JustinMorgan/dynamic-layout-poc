@@ -1,28 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component } from '@angular/core';
+import { BaseGridRowComponent } from '../modes/inheritance/grid/base-grid-row.component';
 import { Alert } from './alert.model';
-import { Store } from '@ngrx/store';
-import { IStoreState } from 'src/app/store/reducers';
-import { SelectAlertAction } from 'src/app/store/actions';
 
 @Component({
-  selector: 'alerts-grid-row',
-  template: `
-    <div class="row" (click)="select()">
-      <div class="cell">{{model.id}}</div>
-      <div class="cell">{{model.name}}</div>
-    </div>
-  `
+    selector: 'alerts-grid-row',
+    templateUrl: '../view-templates/alerts/grid-row.html'
 })
-export class AlertsGridRowComponent implements OnInit {
-
-  @Input() model: Alert;
-
-  constructor(private _store: Store<IStoreState>) { }
-
-  ngOnInit() {
-  }
-
-  select(): void {
-    this._store.dispatch(new SelectAlertAction(this.model));
-  }
-}
+export class AlertsGridRowComponent extends BaseGridRowComponent<Alert> {}

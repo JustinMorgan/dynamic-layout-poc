@@ -1,20 +1,19 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { AlertsComponent } from './alerts/alerts.component';
+import { HomeComponent } from './home.component';
 
-export const APPLICATION_ROUTES: Routes = [
-    {
-        path: '',
-        component: AlertsComponent
-    },
-    {
-        path: '**',
-        redirectTo: ''
-    }
-]
+
+const routes: Routes = [
+    { path: '', component: HomeComponent },
+    { path: 'alerts/:mode', component: AlertsComponent },
+    { path: 'alerts/:mode/:selection', component: AlertsComponent },
+    { path: 'alerts', redirectTo: 'alerts/dynamicComponent' },
+    { path: '**', redirectTo: '' }
+];
 
 @NgModule({
-    imports: [RouterModule.forRoot(APPLICATION_ROUTES, { preloadingStrategy: PreloadAllModules })],
+    imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule]
 })
 export class AppRoutingModule {

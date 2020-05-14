@@ -1,19 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { BaseGridHeaderComponent } from '../modes/inheritance/grid/base-grid-header.component';
+import { Alert } from './alert.model';
 
 @Component({
-  selector: 'alerts-grid-header',
-  template: `
-    <div class="grid-header row">
-        <div class="cell">Alert ID</div>
-        <div class="cell">Alert Name</div>
-    </div>
-  `
+    selector: 'alerts-grid-header',
+    templateUrl: '../view-templates/alerts/grid-header.html'
 })
-export class AlertsGridHeaderComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
-}
+export class AlertsGridHeaderComponent extends BaseGridHeaderComponent<Alert> {}

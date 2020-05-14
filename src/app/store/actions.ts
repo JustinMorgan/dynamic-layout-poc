@@ -11,8 +11,9 @@ const ActionTypes = {
     GET_ALERTS_SUCCESS: 'Get Alerts Success',
     SEARCH_ALERTS: 'Search Alerts',
     SEARCH_ALERTS_SUCCESS: 'Search Alerts Success',
-    SELECT_ALERT_ACTION: 'Select Alert'
-}
+    SELECT_ALERT: 'Select Alert',
+    SELECT_ALERT_SUCCESS: 'Select Alert Success'
+};
 
 export class GetAlertsAction extends TypedAction {
     static readonly TYPE: string = ActionTypes.GET_ALERTS;
@@ -35,7 +36,12 @@ export class SearchAlertsSuccessAction extends TypedAction {
 }
 
 export class SelectAlertAction extends TypedAction {
-    static readonly TYPE: string = ActionTypes.SELECT_ALERT_ACTION;
+    static readonly TYPE: string = ActionTypes.SELECT_ALERT;
+    constructor(public payload: Alert) { super(); }
+}
+
+export class SelectAlertSuccessAction extends TypedAction {
+    static readonly TYPE: string = ActionTypes.SELECT_ALERT_SUCCESS;
     constructor(public payload: Alert) { super(); }
 }
 
@@ -43,4 +49,5 @@ export type AlertAction = GetAlertsAction
                         | GetAlertsSuccessAction
                         | SearchAlertsAction
                         | SearchAlertsSuccessAction
-                        | SelectAlertAction;
+                        | SelectAlertAction
+                        | SelectAlertSuccessAction;

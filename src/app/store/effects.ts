@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { map, withLatestFrom, filter, debounceTime } from 'rxjs/operators';
-import { includes } from 'lodash';
-import { IStoreState } from './reducers';
-import { GetAlertsAction, GetAlertsSuccessAction, SearchAlertsAction, SearchAlertsSuccessAction } from './actions';
+import { Store } from '@ngrx/store';
+import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { mockAlerts } from 'src/mockData/mockAlerts';
 import { Alert } from '../alerts/alert.model';
+import { GetAlertsAction, GetAlertsSuccessAction, SearchAlertsAction, SearchAlertsSuccessAction } from './actions';
+import { IStoreState } from './reducers';
 
 @Injectable()
 export class AlertEffects {
@@ -33,5 +32,6 @@ export class AlertEffects {
         })
     );
 
-    constructor(private actions$: Actions, private _store: Store<IStoreState>) { }
+    constructor(private actions$: Actions,
+                private _store: Store<IStoreState>) { }
 }
